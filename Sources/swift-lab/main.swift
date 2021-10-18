@@ -1,3 +1,3 @@
 import Foundation
 
-lab_2.task6()
+lab_3.task7()
