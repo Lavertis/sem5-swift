@@ -97,6 +97,36 @@ struct lab_5 {
     }
 
     static func task_6() {
-        
+        guard let text = readLine() else {
+            fatalError()
+        }
+        var palindrome = true
+
+        for (c1, c2) in zip(text, text.reversed()) {
+            if c1 != c2 {
+                palindrome = false
+                break
+            }
+        }
+
+        if palindrome {
+            print("\(text) jest palindromem")
+        } else {
+            print("\(text) nie jest palindromem")
+        }
+
+    }
+
+    static func task_7() {
+        var sum = 0
+        var i = 0
+        while i <= 7 {
+            if i % 2 != 0 {
+                print(i)
+                sum += i
+            }
+            i += 1
+        }
+        print("Suma elementow wynosi \(sum)")
     }
 }
