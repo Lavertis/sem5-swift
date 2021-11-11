@@ -65,7 +65,7 @@ struct lab_5 {
         if (x == 0 || x == 1) {
             isPrime = false
         } else {
-            for i in 2...x {
+            for i in 2...Int(sqrt(Double(x))) {
                 if (x % i == 0) {
                     isPrime = false
                     break
@@ -84,16 +84,21 @@ struct lab_5 {
         guard var num = Int(readLine()!) else {
             fatalError()
         }
-        if num < 100 {
+        if num < 100 && num >= 0 {
             fatalError("Liczba nie jest trzycyfrowa")
+        } else if num < 0 {
+            fatalError("Liczba jest ujemna")
         }
 
         var sum = 0
+        var count = 0
         while num != 0 {
             sum += num % 10
             num = num / 10
+            count += 1
         }
-        print(sum)
+        let mean = Double(sum) / Double(count)
+        print(String(format: "%.2lf", mean))
     }
 
     static func task_6() {
