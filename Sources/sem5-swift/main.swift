@@ -1,3 +1,3 @@
 import Foundation
 
-lab_6.task_6()
+kolokwium_1.task_1();
