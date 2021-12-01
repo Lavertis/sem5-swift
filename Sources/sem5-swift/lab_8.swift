@@ -93,4 +93,54 @@ struct lab_8 {
             print("Winter")
         }
     }
+
+    static func task_5() {
+        enum Standard {
+            case High, Medium, Low
+        }
+
+        var flats: [(location: String, area: Float, pricePerM2: Float, standard: Standard)] = []
+//        flats = [("1", 3000, 3000, Standard.Medium), ("2", 200, 200, Standard.Low), ("3", 50000, 50000, Standard.High)]
+
+        print("Podaj liczbe mieszkan:")
+        guard let flatCount = Int(readLine()!) else {
+            fatalError("Blad")
+        }
+
+        for i in 1...flatCount {
+            print("Podaj lokalizacje", i, "mieszkania:")
+            guard let location = readLine() else {
+                fatalError("Blad")
+            }
+            print("Podaj powierzchnie", i, "mieszkania:")
+            guard let area = Float(readLine()!) else {
+                fatalError("Blad")
+            }
+            print("Podaj cene za M2", i, "mieszkania:")
+            guard let pricePerM2 = Float(readLine()!) else {
+                fatalError("Blad")
+            }
+            print("Podaj standard", i, "mieszkania (1 - niski, 2 - sredni, 3 - wysoki):")
+            guard let standardAsInt = Int(readLine()!) else {
+                fatalError("Blad")
+            }
+            var standard: Standard
+            switch standardAsInt {
+            case 1:
+                standard = .Low
+            case 2:
+                standard = .Medium
+            case 3:
+                standard = .High
+            default:
+                fatalError("Blad")
+            }
+            flats.append((location, area, pricePerM2, standard))
+        }
+
+        let expensive = flats.max(by: { $0.area * $0.pricePerM2 < $1.area * $1.pricePerM2 })!
+        let cheapest = flats.min(by: { $0.area * $0.pricePerM2 < $1.area * $1.pricePerM2 })!
+        print("Most expensive flat:", expensive.location, expensive.area, expensive.pricePerM2, expensive.standard)
+        print("Cheapest flat:", cheapest.location, cheapest.area, cheapest.pricePerM2, cheapest.standard)
+    }
 }
