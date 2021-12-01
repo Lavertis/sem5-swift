@@ -69,10 +69,28 @@ struct lab_8 {
             }
             flats.append((location, area, pricePerM2))
         }
-        
+
         let mostExpensive = flats.max(by: { $0.area * $0.pricePerM2 < $1.area * $1.pricePerM2 })!
         let cheapest = flats.min(by: { $0.area * $0.pricePerM2 < $1.area * $1.pricePerM2 })!
         print("Most expensive flat:", mostExpensive.location, mostExpensive.area, mostExpensive.pricePerM2)
         print("Cheapest flat:", cheapest.location, cheapest.area, cheapest.pricePerM2)
+    }
+
+    static func task_4() {
+        enum Month {
+            case January, February, March, April, May, June, July, August, September, October, November, December
+        }
+
+        let month = Month.January
+        switch month {
+        case .March, .April, .May:
+            print("Spring")
+        case .June, .July, .August:
+            print("Summer")
+        case .September, .October, .November:
+            print("Autumn")
+        case .December, .January, .February:
+            print("Winter")
+        }
     }
 }

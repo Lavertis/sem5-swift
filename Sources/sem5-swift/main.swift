@@ -1,3 +1,3 @@
 import Foundation
 
-lab_8.task_3();
+lab_8.task_4();
