@@ -44,4 +44,35 @@ struct lab_8 {
             print(String(format: "%@ %.2lf", s.surname, s.marks.reduce(0.0, +) / 3.0))
         }
     }
+
+    static func task_3() {
+        var flats: [(location: String, area: Float, pricePerM2: Float)] = []
+//        flats = [("1", 3000, 3000), ("2", 200, 200),("3", 50000, 50000)]
+
+        print("Podaj liczbe mieszkan:")
+        guard let flatCount = Int(readLine()!) else {
+            fatalError("Blad")
+        }
+
+        for i in 1...flatCount {
+            print("Podaj lokalizacje", i, "mieszkania:")
+            guard let location = readLine() else {
+                fatalError("Blad")
+            }
+            print("Podaj powierzchnie", i, "mieszkania:")
+            guard let area = Float(readLine()!) else {
+                fatalError("Blad")
+            }
+            print("Podaj cene za M2", i, "mieszkania:")
+            guard let pricePerM2 = Float(readLine()!) else {
+                fatalError("Blad")
+            }
+            flats.append((location, area, pricePerM2))
+        }
+        
+        let mostExpensive = flats.max(by: { $0.area * $0.pricePerM2 < $1.area * $1.pricePerM2 })!
+        let cheapest = flats.min(by: { $0.area * $0.pricePerM2 < $1.area * $1.pricePerM2 })!
+        print("Most expensive flat:", mostExpensive.location, mostExpensive.area, mostExpensive.pricePerM2)
+        print("Cheapest flat:", cheapest.location, cheapest.area, cheapest.pricePerM2)
+    }
 }
