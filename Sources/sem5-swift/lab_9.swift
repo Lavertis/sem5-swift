@@ -88,4 +88,62 @@ struct lab_9 {
             }
         }
     }
+
+    static func task_2() {
+        struct javelinThrow: CustomStringConvertible {
+            var contestantId: Int
+            var attempts: [Float]
+
+            var description: String {
+                String(format: "Contestant{id: %d, attempts: %@}", contestantId, attempts.description)
+            }
+        }
+
+        var participants: [javelinThrow] = []
+        participants = [
+            javelinThrow(contestantId: 1, attempts: [7.8, 9.6, 8.6]),
+            javelinThrow(contestantId: 2, attempts: [13.45, 28.39, 17.98]),
+            javelinThrow(contestantId: 3, attempts: [11.79, 12.22, 10.2])
+        ]
+
+//        for p in 1...4 {
+//            print("Podaj ID", p, "zawodnika:")
+//            guard let id = Int(readLine()!) else {
+//                fatalError("Blad")
+//            }
+//            var `throws`: [Float] = []
+//            for t in 1...3 {
+//                print("Podaj", t, "rzut", p, "zawodnika:")
+//                guard let `throw` = Float(readLine()!) else {
+//                    fatalError("Blad")
+//                }
+//                `throws`.append(`throw`)
+//            }
+//            participants.append(javelinThrow(contestantId: id, attempts: `throws`))
+//        }
+
+        var maxThrowAvg: Float = 0.0
+        var maxThrowAvgIdx = 0
+        var minThrowAvg: Float = Float.greatestFiniteMagnitude
+        var minThrowAvgIdx = 0
+        
+        for (idx, participant) in participants.enumerated() {
+            let avg = participant.attempts.reduce(0.0, +) / 3
+            if avg > maxThrowAvg {
+                maxThrowAvg = avg
+                maxThrowAvgIdx = idx
+            }
+            if avg < minThrowAvg {
+                minThrowAvg = avg
+                minThrowAvgIdx = idx
+            }
+        }
+
+        print("Best participant:", participants[maxThrowAvgIdx])
+        participants.remove(at: minThrowAvgIdx)
+        print("Without worst participant:")
+        for p in participants {
+            print(p)
+        }
+    }
 }
