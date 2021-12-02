@@ -100,27 +100,27 @@ struct lab_9 {
         }
 
         var participants: [javelinThrow] = []
-        participants = [
-            javelinThrow(contestantId: 1, attempts: [7.8, 9.6, 8.6]),
-            javelinThrow(contestantId: 2, attempts: [13.45, 28.39, 17.98]),
-            javelinThrow(contestantId: 3, attempts: [11.79, 12.22, 10.2])
-        ]
+//        participants = [
+//            javelinThrow(contestantId: 1, attempts: [7.8, 9.6, 8.6]),
+//            javelinThrow(contestantId: 2, attempts: [13.45, 28.39, 17.98]),
+//            javelinThrow(contestantId: 3, attempts: [11.79, 12.22, 10.2])
+//        ]
 
-//        for p in 1...4 {
-//            print("Podaj ID", p, "zawodnika:")
-//            guard let id = Int(readLine()!) else {
-//                fatalError("Blad")
-//            }
-//            var `throws`: [Float] = []
-//            for t in 1...3 {
-//                print("Podaj", t, "rzut", p, "zawodnika:")
-//                guard let `throw` = Float(readLine()!) else {
-//                    fatalError("Blad")
-//                }
-//                `throws`.append(`throw`)
-//            }
-//            participants.append(javelinThrow(contestantId: id, attempts: `throws`))
-//        }
+        for p in 1...4 {
+            print("Podaj ID", p, "zawodnika:")
+            guard let id = Int(readLine()!) else {
+                fatalError("Blad")
+            }
+            var `throws`: [Float] = []
+            for t in 1...3 {
+                print("Podaj", t, "rzut", p, "zawodnika:")
+                guard let `throw` = Float(readLine()!) else {
+                    fatalError("Blad")
+                }
+                `throws`.append(`throw`)
+            }
+            participants.append(javelinThrow(contestantId: id, attempts: `throws`))
+        }
 
         var maxThrowAvg: Float = 0.0
         var maxThrowAvgIdx = 0
@@ -183,7 +183,7 @@ struct lab_9 {
             }
             students[id] = surname
         }
-        
+
         print(students)
 
         print("Podaj identyfikator studenta do wyszukania:")
@@ -199,5 +199,61 @@ struct lab_9 {
         }
 
         print(students)
+    }
+
+    static func task_5() {
+        struct Flight {
+            var airport: [String: String] = [:]
+            var destination: [String: String] = [:]
+            var time: Int
+        }
+
+        var flights: [Flight] = []
+//        flights = [
+//            Flight(airport: ["EPWA": "Warsaw Chopin Airport"], destination: ["HEGN": "Hurghada International Airport"], time: 240),
+//            Flight(airport: ["EPLB": "Lublin Airport"], destination: ["EPGD": "Gdansk Lech Walesa Airport"], time: 120),
+//            Flight(airport: ["KLAX": "Los Angeles International Airport"], destination: ["KJFK ": "John F. Kennedy International Airport"], time: 300)
+//        ]
+
+        print("Podaj liczbe lotow:")
+        guard let n = Int(readLine()!) else {
+            fatalError("Blad")
+        }
+
+        for i in 1...n {
+            print("Podaj kod \(i) lotniska wylotu:")
+            let dptAirportCode = readLine()!
+            print("Podaj nazwe \(i) lotniska wylotu:")
+            let dptAirportName = readLine()!
+            print("Podaj kod \(i) lotniska docelowego:")
+            let dstAirportCode = readLine()!
+            print("Podaj nazwe \(i) lotniska docelowego:")
+            let dstAirportName = readLine()!
+            print("Podaj czas \(i) lotu:")
+            guard let time = Int(readLine()!) else {
+                fatalError("Blad")
+            }
+            flights.append(Flight(
+                    airport: [dptAirportCode: dptAirportName],
+                    destination: [dstAirportCode: dstAirportName],
+                    time: time))
+        }
+
+        for f in flights {
+            print(f)
+        }
+
+        let flightTimeAvg = flights.reduce(0.0, { $0 + Double($1.time) }) / Double(flights.count)
+        print("\nAverage flight time:", flightTimeAvg)
+        print("Flights with time more than average:")
+        for flight in flights where Double(flight.time) > flightTimeAvg {
+            print(flight)
+        }
+
+        print("\nFlights after deletion of ones with time less than average:")
+        flights = flights.filter({ Double($0.time) >= flightTimeAvg })
+        for flight in flights {
+            print(flight)
+        }
     }
 }
