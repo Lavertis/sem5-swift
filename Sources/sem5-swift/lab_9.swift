@@ -167,4 +167,37 @@ struct lab_9 {
             print("Brak podanego modelu w zbiorze")
         }
     }
+
+    static func task_4() {
+        var students: [Int: String] = [:]
+//        students = [123: "Student 1", 234: "Student 2", 345: "Student 3", 456: "Student 4", 567: "Student 5"]
+
+        for i in 1...5 {
+            print("Podaj identyfikator", i, "studenta (liczba):")
+            guard let id = Int(readLine()!) else {
+                fatalError("Blad")
+            }
+            print("Podaj nazwisko", i, "studenta:")
+            guard let surname = readLine() else {
+                fatalError("Blad")
+            }
+            students[id] = surname
+        }
+        
+        print(students)
+
+        print("Podaj identyfikator studenta do wyszukania:")
+        guard let id = Int(readLine()!) else {
+            fatalError("Blad")
+        }
+        if students.keys.contains(id) {
+            print(String(format: "Student{id: %d, surname: %@}", id, students[id]!))
+            students[id] = nil
+            print("Usunieto studenta o id =", id)
+        } else {
+            print("Student o podanym ID =", id, "nie istnieje")
+        }
+
+        print(students)
+    }
 }
