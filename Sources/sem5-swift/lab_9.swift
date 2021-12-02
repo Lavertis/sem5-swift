@@ -126,7 +126,7 @@ struct lab_9 {
         var maxThrowAvgIdx = 0
         var minThrowAvg: Float = Float.greatestFiniteMagnitude
         var minThrowAvgIdx = 0
-        
+
         for (idx, participant) in participants.enumerated() {
             let avg = participant.attempts.reduce(0.0, +) / 3
             if avg > maxThrowAvg {
@@ -144,6 +144,27 @@ struct lab_9 {
         print("Without worst participant:")
         for p in participants {
             print(p)
+        }
+    }
+
+    static func task_3() {
+        var cars = Set<String>()
+//        cars = ["Acura", "Alfa Romeo", "Bentley", "Buick", "Cadillac", "Chevrolet"]
+
+        for i in 1...6 {
+            print("Podaj", i, "model samochodu:")
+            if let model = readLine() {
+                cars.insert(model)
+            }
+        }
+
+        print("Podaj model samochodu do usuniecia:")
+        let model = readLine()!
+
+        if let removedItem = cars.remove(model) {
+            print("Usunieto", removedItem)
+        } else {
+            print("Brak podanego modelu w zbiorze")
         }
     }
 }
