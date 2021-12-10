@@ -293,7 +293,7 @@ struct lab_10 {
         }
 
         func show() {
-            print("Person{name: \(name), surname: \(surname), yearOfBirth: \(yearOfBirth), age: \(age)}")
+            print("Person{name: \(name), surname: \(surname), yearOfBirth: \(yearOfBirth), age: \(getAge())}")
         }
     }
 
