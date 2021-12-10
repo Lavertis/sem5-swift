@@ -202,4 +202,66 @@ struct lab_10 {
         let pos2 = getPointPosInRelToSquare(point: point2, squareVertex: squareVertex)
         print("Pozycja punktu 2 wzgledem kwadratu:", pos2)
     }
+
+    static func task_4() {
+        func getIntArrayFromUser(count: Int) -> [Int] {
+            var tab: [Int] = []
+            for i in 1...count {
+                print("Podaj \(i) element tablicy:")
+                guard let num = Int(readLine()!) else {
+                    fatalError("Podana wartosc nie jest liczba calkowita")
+                }
+                tab.append(num)
+            }
+            return tab
+        }
+
+        func printIntArray(arr: [Int]) {
+            for el in arr {
+                print(el, terminator: " ")
+            }
+            print()
+        }
+
+        func getMinElementWithIndex(arr: [Int]) -> (value: Int, index: Int) {
+            let res = arr.enumerated().min(by: { (a, b) in a.1 < b.1 })!
+            return (value: res.1, index: res.0)
+        }
+
+        func getMaxElementWithIndex(arr: [Int]) -> (value: Int, index: Int) {
+            let res = arr.enumerated().max(by: { (a, b) in a.1 < b.1 })!
+            return (value: res.1, index: res.0)
+        }
+
+        func swapMinMax(arr: inout [Int]) {
+            let min = getMinElementWithIndex(arr: arr)
+            let max = getMaxElementWithIndex(arr: arr)
+            arr.swapAt(min.index, max.index)
+        }
+
+        func getArithmeticMean(arr: [Int]) -> Double {
+            Double(arr.reduce(0, +)) / Double(arr.count)
+        }
+
+        print("Podaj liczbe elementow tablicy:")
+        guard let n = Int(readLine()!) else {
+            fatalError("Bledna liczba elementow tablicy")
+        }
+        if n < 1 {
+            fatalError("Liczba elementow w tablicy musi byc >= 1")
+        }
+        var tab: [Int] = getIntArrayFromUser(count: n)
+//        var tab = [30, 3, 10, 2, 9, 15, 56, 45, 25]
+
+        printIntArray(arr: tab)
+        let min = getMinElementWithIndex(arr: tab)
+        let max = getMaxElementWithIndex(arr: tab)
+        print("Minimalny element: \(min.value) na pozycji \(min.index)")
+        print("Maksymalny element: \(max.value) na pozycji \(max.index)")
+        print("Tablica po zamianie min z max:")
+        swapMinMax(arr: &tab)
+        printIntArray(arr: tab)
+        let mean = getArithmeticMean(arr: tab)
+        print(String(format: "Srednia arytmetyczna: %.2lf", mean))
+    }
 }
