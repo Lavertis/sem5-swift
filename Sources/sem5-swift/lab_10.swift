@@ -264,4 +264,51 @@ struct lab_10 {
         let mean = getArithmeticMean(arr: tab)
         print(String(format: "Srednia arytmetyczna: %.2lf", mean))
     }
+
+    static func task_5() {
+        class Person: CustomStringConvertible {
+            var name: String
+            var surname: String
+            var yearOfBirth: Int
+
+            init(name: String, surname: String, yearOfBirth: Int) {
+                self.name = name
+                self.surname = surname
+                self.yearOfBirth = yearOfBirth
+            }
+
+            var fullName: String {
+                "\(name) \(surname)"
+            }
+
+            var age: Int {
+                Calendar.current.component(.year, from: Date()) - yearOfBirth
+            }
+
+            var description: String {
+                "Person{name: \(name), surname: \(surname), yearOfBirth: \(yearOfBirth), age: \(age)}"
+            }
+
+            func getAge() -> Int {
+                Calendar.current.component(.year, from: Date()) - yearOfBirth
+            }
+
+            func show() {
+                print("Person{name: \(name), surname: \(surname), yearOfBirth: \(yearOfBirth), age: \(age)}")
+            }
+        }
+
+        let person1 = Person(name: "Elon", surname: "Musk", yearOfBirth: 1971)
+        let person2 = Person(name: "Bill", surname: "Gates", yearOfBirth: 1955)
+
+        print(person1)
+        print(person2)
+
+        if person1.age != person2.age {
+            print("Mlodsza osoba to", [person1, person2].min(by: { (p1, p2) in person1.age < p2.age })!.fullName)
+            print("Starsza osoba to", [person1, person2].max(by: { (p1, p2) in person1.age < p2.age })!.fullName)
+        } else {
+            print("Obie osoby sa w tym samym wieku")
+        }
+    }
 }
