@@ -1,7 +1,7 @@
 import Foundation
 
 struct lab_11 {
-    class Rectangle: CustomStringConvertible {
+    class Rectangle {
         var a: Double
         var b: Double
 
@@ -10,24 +10,12 @@ struct lab_11 {
             self.b = b
         }
 
-        var area: Double {
-            a * b
-        }
-
         func calculateArea() -> Double {
             a * b
         }
 
-        var perimeter: Double {
-            (a + b) * 2
-        }
-
         func calculatePerimeter() -> Double {
             (a + b) * 2
-        }
-
-        var description: String {
-            "Rectangle{a: \(a), b: \(b), area: \(area), perimeter: \(perimeter)}"
         }
 
         func show() {
@@ -37,7 +25,6 @@ struct lab_11 {
 
     static func task_1() {
         let rect = Rectangle(a: 3.5, b: 4.5)
-        print(rect)
         rect.show()
     }
 
@@ -53,28 +40,12 @@ struct lab_11 {
             super.calculateArea() * 2 + 2 * (a * h) + 2 * (b * h)
         }
 
-        override var area: Double {
-            super.area * 2 + 2 * (a * h) + 2 * (b * h)
-        }
-
         override func calculatePerimeter() -> Double {
             super.calculatePerimeter() * 2 + 4 * h
         }
 
-        override var perimeter: Double {
-            super.perimeter * 2 + 4 * h
-        }
-
         func calculateVolume() -> Double {
             super.calculateArea() * h
-        }
-
-        var volume: Double {
-            super.area * h
-        }
-
-        override var description: String {
-            "Cuboid{a: \(a), b: \(b), h: \(h), area: \(area), perimeter: \(perimeter), volume: \(volume)}"
         }
 
         override func show() {
@@ -84,11 +55,10 @@ struct lab_11 {
 
     static func task_2() {
         let cub = Cuboid(a: 3.5, b: 4.5, h: 6)
-        print(cub)
         cub.show()
     }
 
-    class Person: CustomStringConvertible {
+    class Person {
         var name: String
         var surname: String
         var yearOfBirth: Int
@@ -97,18 +67,6 @@ struct lab_11 {
             self.name = name
             self.surname = surname
             self.yearOfBirth = yearOfBirth
-        }
-
-        var fullName: String {
-            "\(name) \(surname)"
-        }
-
-        var age: Int {
-            Calendar.current.component(.year, from: Date()) - yearOfBirth
-        }
-
-        var description: String {
-            "Person{name: \(name), surname: \(surname), yearOfBirth: \(yearOfBirth), age: \(age)}"
         }
 
         func getAge() -> Int {
@@ -136,20 +94,8 @@ struct lab_11 {
             super.init(name: name, surname: surname, yearOfBirth: yearOfBirth)
         }
 
-        var mean: Double {
-            marks.reduce(0.0, +) / Double(marks.count)
-        }
-
         func calculateMean() -> Double {
             marks.reduce(0.0, +) / Double(marks.count)
-        }
-
-        override var description: String {
-            """
-            Student{name: \(name), surname: \(surname), yearOfBirth: \(yearOfBirth), age: \(age),
-            index: \(index), fieldOfStudy: \(fieldOfStudy),
-            marks: \(marks), mean: \(mean)}
-            """
         }
 
         override func show() {
@@ -225,13 +171,14 @@ struct lab_11 {
         func showStudentsInGivenStudyField(arr: [Student]) {
             print("Wybierz kierunek studiow do wyszukania")
             let fieldOfStudy = getFieldOfStudyFromUser()
-            print("Studenci znajdujacy sie na podanym kierunku:")
+            print("Studenci znajdujacy sie na kierunku \(fieldOfStudy):")
             let filteredStudents = arr.filter({ s in s.fieldOfStudy == fieldOfStudy })
             if filteredStudents.count == 0 {
                 print("Brak")
             } else {
                 for student in filteredStudents {
-                    print(student, terminator: "\n\n")
+                    student.show()
+                    print()
                 }
             }
         }
@@ -254,7 +201,8 @@ struct lab_11 {
 
         print("Wszyscy studenci:")
         for s in students {
-            print(s, terminator: "\n\n")
+            s.show()
+            print()
         }
 
         showStudentsInGivenStudyField(arr: students)
@@ -266,7 +214,8 @@ struct lab_11 {
         var erasmusEndDate: Int
         var courses: [String: Double]
 
-        init(name: String, surname: String, yearOfBirth: Int, index: String, fieldOfStudy: FieldOfStudy, marks: [Double], abroadUniName: String, erasmusStartDate: Int, erasmusEndDate: Int, courses: [String: Double]) {
+        init(name: String, surname: String, yearOfBirth: Int, index: String, fieldOfStudy: FieldOfStudy, marks: [Double],
+             abroadUniName: String, erasmusStartDate: Int, erasmusEndDate: Int, courses: [String: Double]) {
             self.abroadUniName = abroadUniName
             self.erasmusStartDate = erasmusStartDate
             self.erasmusEndDate = erasmusEndDate
@@ -274,16 +223,8 @@ struct lab_11 {
             super.init(name: name, surname: surname, yearOfBirth: yearOfBirth, index: index, fieldOfStudy: fieldOfStudy, marks: marks)
         }
 
-        var erasmusTime: Int {
-            erasmusEndDate - erasmusStartDate
-        }
-
         func getErasmusTime() -> Int {
             erasmusEndDate - erasmusStartDate
-        }
-
-        var grade: String {
-            getGrade()
         }
 
         func getCoursesMean() -> Double {

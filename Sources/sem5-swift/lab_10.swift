@@ -265,7 +265,7 @@ struct lab_10 {
         print(String(format: "Srednia arytmetyczna: %.2lf", mean))
     }
 
-    class Person: CustomStringConvertible {
+    class Person {
         var name: String
         var surname: String
         var yearOfBirth: Int
@@ -278,14 +278,6 @@ struct lab_10 {
 
         var fullName: String {
             "\(name) \(surname)"
-        }
-
-        var age: Int {
-            Calendar.current.component(.year, from: Date()) - yearOfBirth
-        }
-
-        var description: String {
-            "Person{name: \(name), surname: \(surname), yearOfBirth: \(yearOfBirth), age: \(age)}"
         }
 
         func getAge() -> Int {
@@ -301,12 +293,12 @@ struct lab_10 {
         let person1 = Person(name: "Elon", surname: "Musk", yearOfBirth: 1971)
         let person2 = Person(name: "Bill", surname: "Gates", yearOfBirth: 1955)
 
-        print(person1)
-        print(person2)
+        person1.show()
+        person2.show()
 
-        if person1.age != person2.age {
-            print("Mlodsza osoba to", [person1, person2].min(by: { (p1, p2) in person1.age < p2.age })!.fullName)
-            print("Starsza osoba to", [person1, person2].max(by: { (p1, p2) in person1.age < p2.age })!.fullName)
+        if person1.getAge() != person2.getAge() {
+            print("Mlodsza osoba to", [person1, person2].min(by: { (p1, p2) in person1.getAge() < p2.getAge() })!.fullName)
+            print("Starsza osoba to", [person1, person2].max(by: { (p1, p2) in person1.getAge() < p2.getAge() })!.fullName)
         } else {
             print("Obie osoby sa w tym samym wieku")
         }
@@ -334,35 +326,18 @@ struct lab_10 {
                 super.init(name: name, surname: surname, yearOfBirth: yearOfBirth)
             }
 
-            var yearsWorked: Int {
-                Calendar.current.component(.year, from: Date()) - yearOfEmployment
-            }
-
             func getYearsWorked() -> Int {
                 Calendar.current.component(.year, from: Date()) - yearOfEmployment
-            }
-
-            var salary: Double {
-                Double(hoursWorked) * hourlyPay
             }
 
             func calculateSalary() -> Double {
                 Double(hoursWorked) * Double(hourlyPay)
             }
 
-            override var description: String {
-                """
-                Worker{name: \(name), surname: \(surname), yearOfBirth: \(yearOfBirth),
-                age: \(age), yearOfEmployment: \(yearOfEmployment), position: \(position),
-                hourlyPay: \(hourlyPay), hoursWorked: \(hoursWorked), companyName: \(companyName),
-                salary: \(salary), yearsWorked: \(yearsWorked)}
-                """
-            }
-
             override func show() {
                 print("""
                       Worker{name: \(name), surname: \(surname), yearOfBirth: \(yearOfBirth),
-                      age: \(age), yearOfEmployment: \(yearOfEmployment), position: \(position),
+                      age: \(getAge()), yearOfEmployment: \(yearOfEmployment), position: \(position),
                       hourlyPay: \(hourlyPay), hoursWorked: \(hoursWorked), companyName: \(companyName),
                       salary: \(calculateSalary()), yearsWorked: \(getYearsWorked())}
                       """)
@@ -374,8 +349,6 @@ struct lab_10 {
         let worker2 = Worker(name: "Elon", surname: "Musk", yearOfBirth: 1971, yearOfEmployment: 2008,
                 position: .Director, hourlyPay: 103.35, hoursWorked: 80, companyName: "SpaceX")
 
-        print(worker1, terminator: "\n\n")
-        print(worker2, terminator: "\n\n")
         worker1.show()
         print()
         worker2.show()
