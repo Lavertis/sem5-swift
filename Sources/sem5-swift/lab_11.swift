@@ -259,4 +259,73 @@ struct lab_11 {
 
         showStudentsInGivenStudyField(arr: students)
     }
+
+    class StudentOnErasmus: Student {
+        var abroadUniName: String
+        var erasmusStartDate: Int
+        var erasmusEndDate: Int
+        var courses: [String: Double]
+
+        init(name: String, surname: String, yearOfBirth: Int, index: String, fieldOfStudy: FieldOfStudy, marks: [Double], abroadUniName: String, erasmusStartDate: Int, erasmusEndDate: Int, courses: [String: Double]) {
+            self.abroadUniName = abroadUniName
+            self.erasmusStartDate = erasmusStartDate
+            self.erasmusEndDate = erasmusEndDate
+            self.courses = courses
+            super.init(name: name, surname: surname, yearOfBirth: yearOfBirth, index: index, fieldOfStudy: fieldOfStudy, marks: marks)
+        }
+
+        var erasmusTime: Int {
+            erasmusEndDate - erasmusStartDate
+        }
+
+        func getErasmusTime() -> Int {
+            erasmusEndDate - erasmusStartDate
+        }
+
+        var grade: String {
+            getGrade()
+        }
+
+        func getCoursesMean() -> Double {
+            courses.reduce(0.0, { $0 + $1.value }) / Double(courses.count)
+        }
+
+        func getGrade() -> String {
+            let mean = getCoursesMean()
+            switch mean {
+            case 4.6...5.0: return "bardzo dobra"
+            case 3.6...4.5: return "dobra"
+            case 3.0...3.5: return "dostateczna"
+            case 2.0..<3.0: return "niedostateczna"
+            default: fatalError("Bledna srednia")
+            }
+        }
+
+        override func show() {
+            super.show()
+            print("""
+                  ErasmusDetails{uniName: \(abroadUniName), startDate: \(erasmusStartDate),
+                  endDate: \(erasmusEndDate), erasmusTime: \(getErasmusTime()) years,
+                  grade: \(getGrade()), coursesMean: \(getCoursesMean())
+                  courses: \(courses)
+                  """)
+        }
+    }
+
+    static func task_4() {
+        let erasmusStudent = StudentOnErasmus(
+                name: "Bill",
+                surname: "Gates",
+                yearOfBirth: 1955,
+                index: "24685",
+                fieldOfStudy: .ComputerScience,
+                marks: [3.5, 4.5, 4, 5, 5],
+                abroadUniName: "Univeristy of Liverpool",
+                erasmusStartDate: 2018,
+                erasmusEndDate: 2021,
+                courses: ["Maths": 2, "Python": 5, "C++": 4.5, "Linux": 4]
+        )
+
+        erasmusStudent.show()
+    }
 }
