@@ -76,4 +76,50 @@ struct lab_12 {
         numbers.myPow(power: 3)
         numbers.show()
     }
+
+    static func task_3() {
+        enum Calculation: Error {
+            case DivisionByZero, SquareRootOfNegativeNumber
+        }
+
+        func divide(num1: Int, num2: Int) throws -> Double {
+            if num2 == 0 {
+                throw Calculation.DivisionByZero
+            } else {
+                return Double(num1) / Double(num2)
+            }
+        }
+
+        func mySqrt(num: Int) throws -> Double {
+            if num < 0 {
+                throw Calculation.SquareRootOfNegativeNumber
+            } else {
+                return sqrt(Double(num))
+            }
+        }
+
+        print("Podaj 1 liczbe:")
+        guard let num1 = Int(readLine()!) else {
+            fatalError("Bledna liczba")
+        }
+        print("Podaj 2 liczbe:")
+        guard let num2 = Int(readLine()!) else {
+            fatalError("Bledna liczba")
+        }
+
+        do {
+            let divisionRes = try divide(num1: num1, num2: num2)
+            print(num1, "/", num2, "=", divisionRes)
+            let sqrtRes1 = try mySqrt(num: num1)
+            print("sqrt(\(num1)) = \(sqrtRes1)")
+            let sqrtRes2 = try mySqrt(num: num2)
+            print("sqrt(\(num2)) = \(sqrtRes2)")
+        } catch (Calculation.DivisionByZero) {
+            print("Dzielenie przez 0")
+        } catch (Calculation.SquareRootOfNegativeNumber) {
+            print("Pierwiastek z ujemnej liczby")
+        } catch {
+            fatalError("Inny blad")
+        }
+    }
 }
