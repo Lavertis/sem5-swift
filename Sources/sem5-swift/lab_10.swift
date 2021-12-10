@@ -265,39 +265,39 @@ struct lab_10 {
         print(String(format: "Srednia arytmetyczna: %.2lf", mean))
     }
 
-    static func task_5() {
-        class Person: CustomStringConvertible {
-            var name: String
-            var surname: String
-            var yearOfBirth: Int
+    class Person: CustomStringConvertible {
+        var name: String
+        var surname: String
+        var yearOfBirth: Int
 
-            init(name: String, surname: String, yearOfBirth: Int) {
-                self.name = name
-                self.surname = surname
-                self.yearOfBirth = yearOfBirth
-            }
-
-            var fullName: String {
-                "\(name) \(surname)"
-            }
-
-            var age: Int {
-                Calendar.current.component(.year, from: Date()) - yearOfBirth
-            }
-
-            var description: String {
-                "Person{name: \(name), surname: \(surname), yearOfBirth: \(yearOfBirth), age: \(age)}"
-            }
-
-            func getAge() -> Int {
-                Calendar.current.component(.year, from: Date()) - yearOfBirth
-            }
-
-            func show() {
-                print("Person{name: \(name), surname: \(surname), yearOfBirth: \(yearOfBirth), age: \(age)}")
-            }
+        init(name: String, surname: String, yearOfBirth: Int) {
+            self.name = name
+            self.surname = surname
+            self.yearOfBirth = yearOfBirth
         }
 
+        var fullName: String {
+            "\(name) \(surname)"
+        }
+
+        var age: Int {
+            Calendar.current.component(.year, from: Date()) - yearOfBirth
+        }
+
+        var description: String {
+            "Person{name: \(name), surname: \(surname), yearOfBirth: \(yearOfBirth), age: \(age)}"
+        }
+
+        func getAge() -> Int {
+            Calendar.current.component(.year, from: Date()) - yearOfBirth
+        }
+
+        func show() {
+            print("Person{name: \(name), surname: \(surname), yearOfBirth: \(yearOfBirth), age: \(age)}")
+        }
+    }
+
+    static func task_5() {
         let person1 = Person(name: "Elon", surname: "Musk", yearOfBirth: 1971)
         let person2 = Person(name: "Bill", surname: "Gates", yearOfBirth: 1955)
 
@@ -310,5 +310,74 @@ struct lab_10 {
         } else {
             print("Obie osoby sa w tym samym wieku")
         }
+    }
+
+    static func task_6() {
+        class Worker: Person {
+            enum Position {
+                case ManualWorker, OfficeWorker, Director
+            }
+
+            var yearOfEmployment: Int
+            var position: Position
+            var hourlyPay: Double
+            var hoursWorked: Int
+            var companyName: String
+
+            init(name: String, surname: String, yearOfBirth: Int, yearOfEmployment: Int, position: Position,
+                 hourlyPay: Double, hoursWorked: Int, companyName: String) {
+                self.yearOfEmployment = yearOfEmployment
+                self.position = position
+                self.hourlyPay = hourlyPay
+                self.hoursWorked = hoursWorked
+                self.companyName = companyName
+                super.init(name: name, surname: surname, yearOfBirth: yearOfBirth)
+            }
+
+            var yearsWorked: Int {
+                Calendar.current.component(.year, from: Date()) - yearOfEmployment
+            }
+
+            func getYearsWorked() -> Int {
+                Calendar.current.component(.year, from: Date()) - yearOfEmployment
+            }
+
+            var salary: Double {
+                Double(hoursWorked) * hourlyPay
+            }
+
+            func calculateSalary() -> Double {
+                Double(hoursWorked) * Double(hourlyPay)
+            }
+
+            override var description: String {
+                """
+                Worker{name: \(name), surname: \(surname), yearOfBirth: \(yearOfBirth),
+                age: \(age), yearOfEmployment: \(yearOfEmployment), position: \(position),
+                hourlyPay: \(hourlyPay), hoursWorked: \(hoursWorked), companyName: \(companyName),
+                salary: \(salary), yearsWorked: \(yearsWorked)}
+                """
+            }
+
+            override func show() {
+                print("""
+                      Worker{name: \(name), surname: \(surname), yearOfBirth: \(yearOfBirth),
+                      age: \(age), yearOfEmployment: \(yearOfEmployment), position: \(position),
+                      hourlyPay: \(hourlyPay), hoursWorked: \(hoursWorked), companyName: \(companyName),
+                      salary: \(calculateSalary()), yearsWorked: \(getYearsWorked())}
+                      """)
+            }
+        }
+
+        let worker1 = Worker(name: "Bill", surname: "Gates", yearOfBirth: 1955, yearOfEmployment: 2003,
+                position: .OfficeWorker, hourlyPay: 55.5, hoursWorked: 40, companyName: "Microsoft")
+        let worker2 = Worker(name: "Elon", surname: "Musk", yearOfBirth: 1971, yearOfEmployment: 2008,
+                position: .Director, hourlyPay: 103.35, hoursWorked: 80, companyName: "SpaceX")
+
+        print(worker1, terminator: "\n\n")
+        print(worker2, terminator: "\n\n")
+        worker1.show()
+        print()
+        worker2.show()
     }
 }
