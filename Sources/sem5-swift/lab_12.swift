@@ -78,13 +78,13 @@ struct lab_12 {
     }
 
     static func task_3() {
-        enum Calculation: Error {
+        enum CalculationError: Error {
             case DivisionByZero, SquareRootOfNegativeNumber
         }
 
         func divide(num1: Int, num2: Int) throws -> Double {
             if num2 == 0 {
-                throw Calculation.DivisionByZero
+                throw CalculationError.DivisionByZero
             } else {
                 return Double(num1) / Double(num2)
             }
@@ -92,7 +92,7 @@ struct lab_12 {
 
         func mySqrt(num: Int) throws -> Double {
             if num < 0 {
-                throw Calculation.SquareRootOfNegativeNumber
+                throw CalculationError.SquareRootOfNegativeNumber
             } else {
                 return sqrt(Double(num))
             }
@@ -114,12 +114,107 @@ struct lab_12 {
             print("sqrt(\(num1)) = \(sqrtRes1)")
             let sqrtRes2 = try mySqrt(num: num2)
             print("sqrt(\(num2)) = \(sqrtRes2)")
-        } catch (Calculation.DivisionByZero) {
+        } catch (CalculationError.DivisionByZero) {
             print("Dzielenie przez 0")
-        } catch (Calculation.SquareRootOfNegativeNumber) {
+        } catch (CalculationError.SquareRootOfNegativeNumber) {
             print("Pierwiastek z ujemnej liczby")
         } catch {
             fatalError("Inny blad")
+        }
+    }
+
+    static func task_4() {
+        enum ATMError: Error {
+            case InsufficientFunds, AmountTooHigh, DailyLimitExceeded, ExactAmountNotAvailable, IncorrectAmount
+        }
+
+        class Bank {
+            var bills: [Int: Int] = [10: 4, 20: 8, 50: 6, 100: 3, 200: 2]
+            var dailyLimit = 500
+            var accountBalance = 5000
+
+            func showInfo() {
+                print("Stan konta:", accountBalance)
+                print("Ilosc pieniedzy w bankomacie:", amountAvailable)
+                print("Nominaly w bankomacie:", bills)
+            }
+
+            var amountAvailable: Int {
+                bills.reduce(0, { $0 + $1.key * $1.value })
+            }
+
+            func exactAmountAvailable(amount: Int) -> Bool {
+                var amountCpy = amount
+                while amountCpy != 0 {
+                    switch amountCpy {
+                    case _ where amountCpy >= 200 && bills[200] != 0:
+                        bills[200]! -= 1
+                        amountCpy -= 200
+                    case _ where amountCpy >= 100 && bills[100] != 0:
+                        bills[100]! -= 1
+                        amountCpy -= 100
+                    case _ where amountCpy >= 50 && bills[50] != 0:
+                        bills[50]! -= 1
+                        amountCpy -= 50
+                    case _ where amountCpy >= 20 && bills[20] != 0:
+                        bills[20]! -= 1
+                        amountCpy -= 20
+                    case _ where amountCpy >= 10 && bills[10] != 0:
+                        bills[10]! -= 1
+                        amountCpy -= 10
+                    default: return false
+                    }
+                }
+                return true
+            }
+
+            func withdraw(amount: Int) throws -> Bool {
+                if amount > accountBalance {
+                    throw ATMError.InsufficientFunds
+                }
+                if amount > amountAvailable {
+                    throw ATMError.AmountTooHigh
+                }
+                if amount > dailyLimit {
+                    throw ATMError.DailyLimitExceeded
+                }
+                if amount % 10 != 0 || amount < 10 {
+                    throw ATMError.IncorrectAmount
+                }
+                if !exactAmountAvailable(amount: amount) {
+                    throw ATMError.ExactAmountNotAvailable
+                }
+                accountBalance -= amount
+                dailyLimit -= amount
+                return true
+            }
+        }
+
+        let bank = Bank()
+        bank.showInfo()
+        while true {
+            print("Podaj kwote do wyplaty")
+            if let amount = Int(readLine()!) {
+                do {
+                    if try bank.withdraw(amount: amount) {
+                        print("Pomyslnie wyplacono kwote")
+                        bank.showInfo()
+                    }
+                } catch (ATMError.InsufficientFunds) {
+                    print("Niewystarczajace srodki na koncie")
+                } catch (ATMError.AmountTooHigh) {
+                    print("Brak kwoty w bankomacie")
+                } catch (ATMError.DailyLimitExceeded) {
+                    print("Przekroczenie kwoty dziennego limitu")
+                } catch (ATMError.ExactAmountNotAvailable) {
+                    print("Brak odpowiednich nominalow")
+                } catch (ATMError.IncorrectAmount) {
+                    print("Bledna kwota")
+                } catch {
+                    fatalError("Not implemented error")
+                }
+            }
+            print()
         }
     }
 }
