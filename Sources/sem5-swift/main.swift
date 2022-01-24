@@ -1,3 +1,3 @@
 import Foundation
 
-lab_12.task_4();
+kolokwium_2.animals()
